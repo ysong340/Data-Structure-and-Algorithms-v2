@@ -1,10 +1,10 @@
+import java.util.*;
  /**
   * First question in http://www.1point3acres.com/bbs/thread-215128-1-1.html
   * @author yang
   */
-  
-public CheckTriangles {
-    public int checkTriangles(int[] nums) {
+public class Solution {
+    public boolean checkTriangles(int[] nums) {
         Arrays.sort(nums);
         
         for (int i = 0; i < nums.length - 2; i++) {
@@ -21,28 +21,28 @@ public CheckTriangles {
         List<List<Integer>> results = new ArrayList<>();
         int i = 0;
         while (i < nums.length - 2) {
-            int j = i + 1, k = nums.length - 1;
-            while (j < k) {
-                if (nums[i] + nums[j] <= nums[k]) {
-                    k--;
-                } else {
-                    generateTriangles(nums, i, j, k, results);
+            int j = i + 1;
+            while (j < nums.length - 1) {
+                int k = j + 1;
+                while (k < nums.length) {
+                    if (nums[i] + nums[j] > nums[k]) {
+                        results.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    }
+                    k++;
+                    while (k < nums.length && nums[k] == nums[k - 1]) k++;
                 }
                 j++;
-                while (j < nums.length - 1 && nums[j] == nums[j - 1]) j++;
-                k = nums.length - 1;
+                while (j < nums.length && nums[j] == nums[j - 1]) j++;
             }
             i++;
             while (i < nums.length - 2 && nums[i] == nums[i - 1]) i++;
         }
         return results;
     }
- 
-    private void generateTriangles(int[] nums, int i, int j, int k, List<List<Integer>> results) {
-        while (j < k) {
-            results.add(Arrays.asList(nums[i], nums[j], nums[k]));
-            k--;
-            while (k > j && nums[k] == nums[k + 1]) k--;
-        }
+
+    public static void main(String[] args) {
+        int[] nums = {10, 21, 22, 100, 101, 200, 300};
+        Solution s = new Solution();
+        System.out.println(s.getAllTriangles(nums));
     }
 }
